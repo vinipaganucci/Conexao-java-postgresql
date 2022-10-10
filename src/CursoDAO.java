@@ -45,17 +45,17 @@ public class CursoDAO {
     }
 
     
-    public Curso getById(int id) {
+    public String getNomeCurso(String nomeCurso) {
        
         Curso curso = new Curso();
 
         try (Connection conn = ConnectionJdbc.conectar()) {
            
-            String sql = "SELECT * FROM curso WHERE id = ?";
+            String sql = "SELECT * FROM curso WHERE nome = ?";
 
            
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
+            stmt.setString(1, nomeCurso);
 
             
             ResultSet rs = stmt.executeQuery();
@@ -65,6 +65,8 @@ public class CursoDAO {
             	curso.setId(rs.getInt("id"));
             	curso.setNome(rs.getString("nome"));
             	curso.setDuracaoHoras(rs.getInt("duracao_horas"));
+            } else {
+            	curso.setNome("Teste");
             }
 
         } catch (SQLException e) {
@@ -73,7 +75,7 @@ public class CursoDAO {
         }
 
         
-        return curso;
+        return curso.getNome();
     }
 
    
